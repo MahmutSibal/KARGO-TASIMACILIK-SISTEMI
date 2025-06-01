@@ -1,0 +1,351 @@
+USE [master]
+GO
+/****** Object:  Database [KargoTakipSistemi]    Script Date: 1.06.2025 19:47:09 ******/
+CREATE DATABASE [KargoTakipSistemi]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'KargoTakipSistemi', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\KargoTakipSistemi.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'KargoTakipSistemi_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\KargoTakipSistemi_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [KargoTakipSistemi] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [KargoTakipSistemi].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [KargoTakipSistemi] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET AUTO_CLOSE ON 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET  MULTI_USER 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [KargoTakipSistemi] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [KargoTakipSistemi] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [KargoTakipSistemi] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [KargoTakipSistemi] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [KargoTakipSistemi]
+GO
+/****** Object:  Table [dbo].[Giris]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Giris](
+	[GirisID] [int] IDENTITY(1,1) NOT NULL,
+	[KullaniciID] [int] NULL,
+	[KullaniciAdi] [nvarchar](50) NULL,
+	[Sifre] [nvarchar](50) NULL,
+	[Yetki] [nvarchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[GirisID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Kargo]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Kargo](
+	[KargoID] [int] IDENTITY(1,1) NOT NULL,
+	[GonderenID] [int] NULL,
+	[AliciID] [int] NULL,
+	[GonderiTarihi] [datetime] NULL,
+	[TeslimTarihi] [datetime] NULL,
+	[DurumID] [int] NULL,
+	[Aciklama] [nvarchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[KargoID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[KargoDetayLog]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[KargoDetayLog](
+	[LogID] [int] IDENTITY(1,1) NOT NULL,
+	[KargoID] [int] NULL,
+	[OlayTarihi] [datetime] NULL,
+	[OlayAciklamasi] [nvarchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[LogID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[KargoDurumu]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[KargoDurumu](
+	[DurumID] [int] IDENTITY(1,1) NOT NULL,
+	[DurumAdi] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[DurumID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[KargoRapor]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[KargoRapor](
+	[RaporID] [int] IDENTITY(1,1) NOT NULL,
+	[Donem] [nvarchar](20) NULL,
+	[ToplamKargo] [int] NULL,
+	[TeslimEdilen] [int] NULL,
+	[TeslimEdilmeyen] [int] NULL,
+	[RaporTarihi] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[RaporID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Kullanici]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Kullanici](
+	[KullaniciID] [int] IDENTITY(1,1) NOT NULL,
+	[AdSoyad] [nvarchar](100) NULL,
+	[Email] [nvarchar](100) NULL,
+	[Telefon] [nvarchar](15) NULL,
+	[Adres] [nvarchar](255) NULL,
+	[KullaniciTuru] [nvarchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[KullaniciID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[SistemBakim]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SistemBakim](
+	[BakimID] [int] IDENTITY(1,1) NOT NULL,
+	[BaslangicTarihi] [datetime] NULL,
+	[BitisTarihi] [datetime] NULL,
+	[Aciklama] [nvarchar](255) NULL,
+	[YapildiMi] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[BakimID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tbl_Calisanlar]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tbl_Calisanlar](
+	[CalisanID] [int] IDENTITY(1,1) NOT NULL,
+	[AdSoyad] [nvarchar](100) NULL,
+	[Gorev] [nvarchar](100) NULL,
+	[Telefon] [nvarchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[CalisanID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tbl_Kargolar]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tbl_Kargolar](
+	[KargoID] [int] IDENTITY(1,1) NOT NULL,
+	[Gonderen] [nvarchar](100) NULL,
+	[Alici] [nvarchar](100) NULL,
+	[Durum] [nvarchar](50) NULL,
+	[KayitTarihi] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[KargoID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tbl_KargoTasima]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tbl_KargoTasima](
+	[TasimaID] [int] IDENTITY(1,1) NOT NULL,
+	[KargoID] [int] NULL,
+	[TasimaTarihi] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TasimaID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tbl_KargoTeslim]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tbl_KargoTeslim](
+	[TeslimID] [int] IDENTITY(1,1) NOT NULL,
+	[KargoID] [int] NULL,
+	[TeslimTarihi] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TeslimID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tbl_Kullanicilar]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tbl_Kullanicilar](
+	[KullaniciID] [int] IDENTITY(1,1) NOT NULL,
+	[KullaniciAdi] [nvarchar](50) NULL,
+	[Sifre] [nvarchar](50) NULL,
+	[Yetki] [nvarchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[KullaniciID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tbl_Sikayetler]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tbl_Sikayetler](
+	[SikayetID] [int] IDENTITY(1,1) NOT NULL,
+	[TakipNo] [nvarchar](50) NULL,
+	[AdSoyad] [nvarchar](100) NULL,
+	[Konu] [nvarchar](200) NULL,
+	[Mesaj] [nvarchar](max) NULL,
+	[Tarih] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[SikayetID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[YedeklemeLog]    Script Date: 1.06.2025 19:47:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[YedeklemeLog](
+	[YedekID] [int] IDENTITY(1,1) NOT NULL,
+	[YedekTarihi] [datetime] NULL,
+	[DosyaAdi] [nvarchar](255) NULL,
+	[Aciklama] [nvarchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[YedekID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Kargo] ADD  DEFAULT (getdate()) FOR [GonderiTarihi]
+GO
+ALTER TABLE [dbo].[KargoDetayLog] ADD  DEFAULT (getdate()) FOR [OlayTarihi]
+GO
+ALTER TABLE [dbo].[KargoRapor] ADD  DEFAULT (getdate()) FOR [RaporTarihi]
+GO
+ALTER TABLE [dbo].[SistemBakim] ADD  DEFAULT ((0)) FOR [YapildiMi]
+GO
+ALTER TABLE [dbo].[YedeklemeLog] ADD  DEFAULT (getdate()) FOR [YedekTarihi]
+GO
+ALTER TABLE [dbo].[Giris]  WITH CHECK ADD FOREIGN KEY([KullaniciID])
+REFERENCES [dbo].[Kullanici] ([KullaniciID])
+GO
+ALTER TABLE [dbo].[Kargo]  WITH CHECK ADD FOREIGN KEY([AliciID])
+REFERENCES [dbo].[Kullanici] ([KullaniciID])
+GO
+ALTER TABLE [dbo].[Kargo]  WITH CHECK ADD FOREIGN KEY([DurumID])
+REFERENCES [dbo].[KargoDurumu] ([DurumID])
+GO
+ALTER TABLE [dbo].[Kargo]  WITH CHECK ADD FOREIGN KEY([GonderenID])
+REFERENCES [dbo].[Kullanici] ([KullaniciID])
+GO
+ALTER TABLE [dbo].[KargoDetayLog]  WITH CHECK ADD FOREIGN KEY([KargoID])
+REFERENCES [dbo].[Kargo] ([KargoID])
+GO
+ALTER TABLE [dbo].[tbl_KargoTasima]  WITH CHECK ADD FOREIGN KEY([KargoID])
+REFERENCES [dbo].[tbl_Kargolar] ([KargoID])
+GO
+ALTER TABLE [dbo].[tbl_KargoTeslim]  WITH CHECK ADD FOREIGN KEY([KargoID])
+REFERENCES [dbo].[tbl_Kargolar] ([KargoID])
+GO
+USE [master]
+GO
+ALTER DATABASE [KargoTakipSistemi] SET  READ_WRITE 
+GO
